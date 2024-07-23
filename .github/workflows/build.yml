@@ -50,10 +50,8 @@ jobs:
               id: release_values
               run: echo "release_tag=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
-            - name: Upload DevBuild as release
-              run: |
-                  gh release upload $RELEASE_TAG --clobber dist/*
-                  gh release edit $RELEASE_TAG --title "Build $RELEASE_TAG"
+            - name: Create and upload new release
+              run: gh release create $RELEASE_TAG dist/* --title "Build $RELEASE_TAG" --notes "This is a build for $RELEASE_TAG"
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   RELEASE_TAG: ${{ env.release_tag }}
