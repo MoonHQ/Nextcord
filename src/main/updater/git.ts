@@ -67,8 +67,37 @@ async function calculateGitChanges() {
 }
 
 async function pull() {
-    const res = await git("pull");
+    const { commitHash } = await getLatestCommit();
+
+    const res = await git("pull", "origin", commitHash);
+
     return res.stdout.includes("Fast-forward");
+}
+
+async function getOwnerAndRepo() {
+    const repoUrl = await getRepo();
+
+    const [owner, repo] = repoUrl.replace('https://github.com/', '').split('/');
+
+    return { owner, repo };
+}
+
+async function getLatestRelease() {
+    const { owner, repo } = await getOwnerAndRepo();
+
+    const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/releases/latest`);
+    if (!response.ok) throw new Error(`Error fetching latest release: ${response.statusText}`);
+
+    return response.json();
+}
+
+async function getLatestCommit() {
+    const latestRelease = await getLatestRelease();
+
+    const commitHash = latestRelease.target_commitish;
+    const releaseLink = latestRelease.html_url;
+
+    return { commitHash, releaseLink };
 }
 
 async function build() {
