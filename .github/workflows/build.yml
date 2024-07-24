@@ -43,6 +43,20 @@ jobs:
               id: release_values
               run: echo "release_tag=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
+            - name: Set up Git
+              run: |
+                  git config --global user.name 'github-actions'
+                  git config --global user.email 'github-actions@github.com'
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+            - name: Create new branch
+              run: |
+                  git checkout -b $RELEASE_TAG
+                  git push -u origin $RELEASE_TAG
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
             - name: Create and upload new release
               run: gh release create $RELEASE_TAG dist/* --title "Build $RELEASE_TAG" --notes "This is a build for $RELEASE_TAG"
               env:
