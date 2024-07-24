@@ -56,6 +56,7 @@ jobs:
                   git push -u origin $RELEASE_TAG
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  RELEASE_TAG: ${{ env.release_tag }}
 
             - name: Create and upload new release
               run: gh release create $RELEASE_TAG dist/* --title "Build $RELEASE_TAG" --notes "This is a build for $RELEASE_TAG"

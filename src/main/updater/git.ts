@@ -69,7 +69,7 @@ async function calculateGitChanges() {
 async function pull() {
     const hash = await getLatestCommit();
 
-    const res = await git("pull", "origin", hash);
+    const res = await git("switch", hash);
 
     return res.stdout.includes("Fast-forward");
 }
