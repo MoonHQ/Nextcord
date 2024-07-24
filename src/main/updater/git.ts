@@ -46,26 +46,6 @@ async function getRepo() {
         .replace(/\.git$/, "");
 }
 
-// async function calculateGitChanges() {
-//     await git("fetch");
-
-//     const branch = (await git("branch", "--show-current")).stdout.trim();
-
-//     const existsOnOrigin = (await git("ls-remote", "origin", branch)).stdout.length > 0;
-//     if (!existsOnOrigin) return [];
-
-//     const res = await git("log", `HEAD...origin/${branch}`, "--pretty=format:%an/%h/%s");
-
-//     const commits = res.stdout.trim();
-//     return commits ? commits.split("\n").map(line => {
-//         const [author, hash, ...rest] = line.split("/");
-//         return {
-//             hash, author,
-//             message: rest.join("/").split("\n")[0]
-//         };
-//     }) : [];
-// }
-
 async function calculateGitChanges() {
     await git("fetch");
 
@@ -73,9 +53,8 @@ async function calculateGitChanges() {
 
     const latest = await getLatestCommit();
 
-    return local === latest ? [{ hash: latest, author: "Actions", message: "Latest release" }] : [];
+    return local !== latest ? [{ hash: latest, author: "Actions", message: "Latest release" }] : [];
 }
-
 
 async function pull() {
     const hash = await getLatestCommit();
