@@ -69,9 +69,9 @@ async function calculateGitChanges() {
 async function pull() {
     const hash = await getLatestCommit();
 
-    const res = await git("switch", hash);
+    const res = await git("switch", hash, "--detach");
 
-    return res.stdout.includes("Fast-forward");
+    return res.stdout.includes("Updated build");
 }
 
 async function getOwnerAndRepo() {
