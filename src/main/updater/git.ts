@@ -53,6 +53,8 @@ async function calculateGitChanges() {
 
     const latest = await getLatestCommit();
 
+    console.log(local, latest);
+
     return local !== latest ? [{ hash: latest, author: "Actions", message: "Latest release" }] : [];
 }
 
@@ -61,6 +63,10 @@ async function pull() {
 
     const res = await git("switch", hash, "--detach");
 
+    console.log(res.stdout);
+
+    await git("submodule", "update", "--init", "--recursive");
+
     return res.stdout.includes("Updated build");
 }
 
@@ -68,6 +74,8 @@ async function getOwnerAndRepo() {
     const link = await getRepo();
 
     const [owner, repo] = link.replace('https://github.com/', '').split('/');
+
+    console.log(owner, repo);
 
     return { owner, repo };
 }
