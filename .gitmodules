@@ -1,0 +1,3 @@
+[submodule "src/userplugins/translatePlus"]
+	path = src/userplugins/translatePlus
+	url = https://github.com/ForkPrince/TranslatePlus.git
