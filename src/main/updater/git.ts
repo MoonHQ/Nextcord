@@ -49,13 +49,13 @@ async function getRepo() {
 async function calculateGitChanges() {
     await git("fetch");
 
-    const local = (await git("rev-parse", "HEAD")).stdout.trim();
+    const local = ((await git("rev-parse", "HEAD")).stdout.trim()).substring(0, 7);
 
     const latest = await getLatestCommit();
 
     console.log(local, latest);
 
-    return local !== latest ? [{ hash: latest, author: "Actions", message: "Latest release" }] : [];
+    return [{ hash: latest, author: "Actions", message: "Latest release" }];
 }
 
 async function pull() {
