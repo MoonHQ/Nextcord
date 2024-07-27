@@ -40,6 +40,8 @@ async function Unwrap<T>(p: Promise<IpcRes<T>>) {
 export async function checkForUpdates() {
     changes = await Unwrap(VencordNative.updater.getUpdates());
 
+    console.log(changes[0].hash, gitHash);
+
     return isOutdated = changes[0].hash === gitHash;
 }
 
