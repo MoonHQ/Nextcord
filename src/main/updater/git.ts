@@ -55,7 +55,7 @@ async function calculateGitChanges() {
 
     console.log(local, latest);
 
-    return [{ hash: latest, author: "Actions", message: "Latest release" }];
+    return local !== latest ? [{ hash: latest, author: "Actions", message: "Latest release" }] : [];
 }
 
 async function pull() {
