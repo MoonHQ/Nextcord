@@ -42,7 +42,7 @@ export async function checkForUpdates() {
 
     console.log(changes[0].hash, gitHash);
 
-    return isOutdated = changes[0].hash === gitHash;
+    return (isOutdated = changes[0].hash === gitHash);
 }
 
 export async function update() {
