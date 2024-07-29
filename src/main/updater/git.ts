@@ -61,7 +61,7 @@ async function calculateGitChanges() {
 async function pull() {
     const hash = await getLatestCommit();
 
-    const res = await git("switch", hash, "--detach");
+    const res = await git("checkout", "--track", `origin/${hash}`);
 
     console.log(res.stdout);
 
